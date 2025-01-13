@@ -21,7 +21,7 @@
             "url": "https://cisdev.green-delta.com"
         }
     ],
-     "tags": [
+    "tags": [
         {
             "name": "Agent",
             "description": "Agent Controller"
@@ -1138,6 +1138,66 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/Data Object Single«Quotation Prerequsite Response»"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, i.e. The client's request is malformed or contains errors, making it impossible for the server to understand or process the request."
+                    },
+                    "401": {
+                        "description": "Unauthorized, i.e. \t\tThe client's request is missing valid authentication credentials, or the provided credentials are invalid or insufficient to access the requested resource."
+                    },
+                    "412": {
+                        "description": "Precondition failed, i.e. The server received a client request with specific preconditions that were not met."
+                    },
+                    "415": {
+                        "description": "Method not allowed, i.e. The server cannot process the client's request because the provided media type or content format is not supported or acceptable."
+                    },
+                    "500": {
+                        "description": "Internal Server Error, i.e. The server encountered an unexpected error or condition that prevented it from processing the client's request."
+                    }
+                }
+            }
+        },
+        "/api/get-quotation-with-multi-product": {
+            "post": {
+                "tags": [
+                    "Quotation"
+                ],
+                "summary": "Get Quotation With Multiple Product",
+                "description": "Returns specific product's quotation. Estimated cost for insurance coverage, outlining terms, premiums, and coverage details for consideration.",
+                "operationId": "getQuotationWithMultiRequestUsingPOST",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer [token]",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Get Quotation Request Body"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Data Object«Get Quotation Response»"
                                 }
                             }
                         }
@@ -3482,6 +3542,35 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Get Customer By ID for LIMS middleware"
+                        }
+                    },
+                    "remarks": {
+                        "type": "array",
+                        "description": "The success or error message will be send using this field.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "result": {
+                        "type": "boolean",
+                        "description": "Indicates whether the request execution status, true is success, false is failed.",
+                        "example": false
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "description": "Time and date of the execution",
+                        "example": "2023-11-09 17:02:32.041"
+                    }
+                }
+            },
+            "Data Object«Get Quotation Response»": {
+                "title": "Data Object«Get Quotation Response»",
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Get Quotation Response"
                         }
                     },
                     "remarks": {
@@ -5879,17 +5968,6 @@
                 "title": "Nibedita Quotation Prerequisite",
                 "type": "object",
                 "properties": {
-                    "dropdowns": {
-                        "description": "Dropdown values for Nibedita/GHI",
-                        "$ref": "#/components/schemas/Nibedita Dropdown Details"
-                    },
-                    "objectArrays": {
-                        "type": "array",
-                        "description": "For Nibedita Nominee can be multiple and will be save as arrays of object. In the object the nominee details will be provided",
-                        "items": {
-                            "$ref": "#/components/schemas/Object Arrays Details"
-                        }
-                    },
                     "textFields": {
                         "type": "array",
                         "description": "Common text fields array with type and description",
